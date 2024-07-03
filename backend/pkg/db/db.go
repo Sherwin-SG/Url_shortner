@@ -1,4 +1,3 @@
-// backend/pkg/db/db.go
 
 package db
 
