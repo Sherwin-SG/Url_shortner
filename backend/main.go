@@ -45,26 +45,24 @@ func shortenURLHandler(w http.ResponseWriter, r *http.Request) {
     err := json.NewDecoder(r.Body).Decode(&url)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
+        log.Printf("Error decoding JSON: %v\n", err)
         return
     }
 
-    // Generate shortURL
     shortURL := generateShortURL()
     log.Println("Generated short URL:", shortURL)
 
-    // Insert into database (assuming db.InsertURL function exists)
     err = db.InsertURL(shortURL, url.Original)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf("Error inserting URL into database: %v\n", err)
         return
     }
 
-    // Prepare response with shortened URL
     url.Shortened = "http://localhost:8080/" + shortURL
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(url)
 }
-
 
 
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
