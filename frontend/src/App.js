@@ -1,7 +1,7 @@
 // src/App.js
 
 import React from 'react';
-import URLShortener from './urlshortener.js';
+import URLShortener from './urlshortener.jsx';
 import './App.css';
 
 function App() {

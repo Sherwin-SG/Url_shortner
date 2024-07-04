@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import CopyButton from './copybutton.jsx'; // Import the CopyButton component
 
 const URLShortener = () => {
   const [originalUrl, setOriginalUrl] = useState('');
@@ -37,6 +38,7 @@ const URLShortener = () => {
           <a href={shortenedUrl} target="_blank" rel="noopener noreferrer">
             {shortenedUrl}
           </a>
+          <CopyButton textToCopy={shortenedUrl} /> {/* Add the CopyButton component */}
         </div>
       )}
       {error && <p className="error">{error}</p>}
