@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -6,7 +5,7 @@ import (
     "log"
     "math/rand"
     "net/http"
-    "time"
+    "fmt"
 
     "github.com/rs/cors"
     "react-go-project/backend/pkg/db"
@@ -16,11 +15,18 @@ func main() {
     db.InitDB()
     defer db.CloseDB()
 
-    rand.Seed(time.Now().UnixNano())
-
     mux := http.NewServeMux()
+
+    // Handle API endpoints
     mux.HandleFunc("/api/shorten", shortenURLHandler)
+    
+    // Handle redirect for shortened URLs
     mux.HandleFunc("/", redirectHandler)
+    
+    // Default handler for other routes
+    mux.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Welcome to URL Shortener API")
+    })
 
     handler := cors.Default().Handler(mux)
 
@@ -42,22 +48,27 @@ func shortenURLHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    // Generate shortURL
     shortURL := generateShortURL()
     log.Println("Generated short URL:", shortURL)
 
+    // Insert into database (assuming db.InsertURL function exists)
     err = db.InsertURL(shortURL, url.Original)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
 
+    // Prepare response with shortened URL
     url.Shortened = "http://localhost:8080/" + shortURL
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(url)
 }
 
+
+
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
-    shortURL := r.URL.Path[1:]
+    shortURL := r.URL.Path[1:] // Extract the short URL from the request path
     log.Println("Received short URL:", shortURL)
 
     originalURL, err := db.GetOriginalURL(shortURL)
@@ -67,6 +78,7 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    // Redirect to the original URL
     http.Redirect(w, r, originalURL, http.StatusFound)
 }
 

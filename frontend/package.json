@@ -17,8 +17,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-  "server": "go run backend/main.go",
-  "client": "react-scripts start"
+    "server": "cd ../backend && go run main.go",
+    "client": "react-scripts start"
   },
   "eslintConfig": {
     "extends": [

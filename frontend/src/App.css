@@ -7,19 +7,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-family: Arial, sans-serif;
+  padding-top: 20px;
 }
 
 .App-header {
-  background-color: #282c34;
-  height: 60px;
+  background-color: #3f5c96;
+  max-width: 400px;
+  border-radius: 20px;
+  height: 80px;
   display: flex;
   align-items: center;
-  justify-content: center;
   font-size: 1.5rem;
   color: white;
   width: 100%;
+  text-align: center;
 }
 
 .App-main {
@@ -59,8 +61,8 @@ button:hover {
 }
 
 h1, h2 {
-  margin-bottom: 10px;
-  font-weight: 600;
+  
+  margin-left: 25px;
 }
 
 a {

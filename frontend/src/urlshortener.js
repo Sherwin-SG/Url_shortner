@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -12,7 +10,7 @@ const URLShortener = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/api/shorten', {
-        originalUrl,
+        originalUrl: originalUrl
       });
       setShortenedUrl(response.data.shortenedUrl);
       setError('');
