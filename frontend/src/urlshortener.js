@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import CopyButton from './copybutton.js'; // Import the CopyButton component
 
 const URLShortener = () => {
@@ -9,9 +8,22 @@ const URLShortener = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post('/api/shorten', { originalUrl });
-      setShortenedUrl(response.data.shortenedUrl);
+      const response = await fetch('/api/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ originalUrl })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to shorten URL');
+      }
+
+      const data = await response.json();
+      setShortenedUrl(data.shortenedUrl);
       setError('');
     } catch (err) {
       setError('Failed to shorten URL');
@@ -36,7 +48,7 @@ const URLShortener = () => {
           <a href={shortenedUrl} target="_blank" rel="noopener noreferrer">
             {shortenedUrl}
           </a>
-          <CopyButton textToCopy={shortenedUrl} /> {/* Add the CopyButton component */}
+          <CopyButton textToCopy={shortenedUrl} />
         </div>
       )}
       {error && <p className="error">{error}</p>}
