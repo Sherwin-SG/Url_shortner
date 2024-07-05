@@ -1,7 +1,8 @@
 // src/App.js
 
 import React from 'react';
-import URLShortener from './urlshortener.jsx';
+import URLShortener from './urlshortener.js';
+import Footer from './Footer.js';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <main className="App-main">
         <URLShortener />
       </main>
+      <Footer />
     </div>
   );
 }

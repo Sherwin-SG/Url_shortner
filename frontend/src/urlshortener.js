@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import CopyButton from './copybutton.jsx'; // Import the CopyButton component
+import CopyButton from './copybutton.js'; // Import the CopyButton component
 
 const URLShortener = () => {
   const [originalUrl, setOriginalUrl] = useState('');
@@ -10,9 +10,7 @@ const URLShortener = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/shorten', {
-        originalUrl: originalUrl
-      });
+      const response = await axios.post('/api/shorten', { originalUrl });
       setShortenedUrl(response.data.shortenedUrl);
       setError('');
     } catch (err) {

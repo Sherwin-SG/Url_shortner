@@ -6,17 +6,15 @@ const CopyButton = ({ textToCopy }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(textToCopy).then(() => {
       setCopySuccess('Copied!');
-      setTimeout(() => setCopySuccess(''), 2000);
+      setTimeout(() => setCopySuccess(''), 2000); // Clear success message after 2 seconds
     }, (err) => {
       setCopySuccess('Failed to copy!');
     });
   };
 
-  return (
-    <div>
-      <button onClick={copyToClipboard}>Copy URL</button>
-      {copySuccess && <span>{copySuccess}</span>}
-    </div>
+  return React.createElement('div', null,
+    React.createElement('button', { onClick: copyToClipboard }, 'Copy URL'),
+    copySuccess && React.createElement('span', null, copySuccess)
   );
 };
 
