@@ -1,15 +1,19 @@
-
 package db
 
 import (
     "database/sql"
     "log"
-    
 
     _ "github.com/mattn/go-sqlite3" // SQLite driver
 )
 
 var db *sql.DB // Global variable to hold the database connection
+
+// URL struct for encoding and decoding JSON
+type URL struct {
+    Original  string `json:"originalUrl"`
+    Shortened string `json:"shortenedUrl"`
+}
 
 // InitDB initializes the database connection and creates the table if not exists
 func InitDB() {
@@ -70,6 +74,27 @@ func GetOriginalURL(shortURL string) (string, error) {
         return "", err
     }
     return originalURL, nil
+}
+
+// GetAllURLs retrieves all short and original URLs from the database
+func GetAllURLs() ([]URL, error) {
+    rows, err := db.Query("SELECT shortURL, originalURL FROM urls")
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+    var urls []URL
+    for rows.Next() {
+        var url URL
+        err := rows.Scan(&url.Shortened, &url.Original)
+        if err != nil {
+            return nil, err
+        }
+        urls = append(urls, url)
+    }
+
+    return urls, nil
 }
 
 // CloseDB closes the database connection

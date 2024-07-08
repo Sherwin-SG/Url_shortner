@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import CopyButton from './copybutton.js'; // Import the CopyButton component
+import SlidingPanel from './slidingpanel.js'; // Import the SlidingPanel component
 
 const URLShortener = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortenedUrl, setShortenedUrl] = useState('');
   const [error, setError] = useState('');
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ const URLShortener = () => {
 
   return (
     <div className="URLShortener">
+      <button onClick={() => setIsPanelOpen(true)}>Show All URLs</button>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -52,6 +55,7 @@ const URLShortener = () => {
         </div>
       )}
       {error && <p className="error">{error}</p>}
+      <SlidingPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} />
     </div>
   );
 };

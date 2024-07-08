@@ -12,7 +12,7 @@
 
 .App-header {
   background-color: #3f5c96;
-  max-width: 400px;
+  max-width: 370px;
   border-radius: 20px;
   height: 80px;
   display: flex;
@@ -88,3 +88,76 @@ p {
   margin-top: 10px;
 }
 
+
+/* SlidingPanel.css */
+
+.sliding-panel {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.sliding-panel.open {
+  right: 0;
+}
+
+.close-button {
+  display: block;
+  margin: 10px 0;
+  padding: 5px 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.close-button:hover {
+  background-color: #c9302c;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+li a {
+  text-decoration: none;
+  color: #337ab7;
+  font-weight: bold;
+}
+
+li a:hover {
+  text-decoration: underline;
+}
+
+li span {
+  display: block;
+  color: #666;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.panel-header {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}

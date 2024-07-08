@@ -28,20 +28,16 @@ func main() {
         fmt.Fprintf(w, "Welcome to URL Shortener API")
     })
 
+    mux.HandleFunc("/api/urls", getAllURLsHandler)
+
     handler := cors.Default().Handler(mux)
 
     log.Println("Starting server on :8080")
     log.Fatal(http.ListenAndServe(":8080", handler))
 }
 
-// URL struct for encoding and decoding JSON
-type URL struct {
-    Original  string `json:"originalUrl"`
-    Shortened string `json:"shortenedUrl"`
-}
-
 func shortenURLHandler(w http.ResponseWriter, r *http.Request) {
-    var url URL
+    var url db.URL
     err := json.NewDecoder(r.Body).Decode(&url)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
@@ -64,7 +60,6 @@ func shortenURLHandler(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(url)
 }
 
-
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
     shortURL := r.URL.Path[1:] // Extract the short URL from the request path
     log.Println("Received short URL:", shortURL)
@@ -78,6 +73,18 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 
     // Redirect to the original URL
     http.Redirect(w, r, originalURL, http.StatusFound)
+}
+
+func getAllURLsHandler(w http.ResponseWriter, r *http.Request) {
+    urls, err := db.GetAllURLs()
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf("Error retrieving URLs from database: %v\n", err)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(urls)
 }
 
 func generateShortURL() string {
