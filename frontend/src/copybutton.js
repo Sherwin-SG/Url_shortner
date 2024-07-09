@@ -6,7 +6,7 @@ const CopyButton = ({ textToCopy }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(textToCopy).then(() => {
       setCopySuccess('Copied!');
-      setTimeout(() => setCopySuccess(''), 2000); // Clear success message after 2 seconds
+      setTimeout(() => setCopySuccess(''), 2000); 
     }, (err) => {
       setCopySuccess('Failed to copy!');
     });
