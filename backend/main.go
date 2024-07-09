@@ -17,13 +17,13 @@ func main() {
 
     mux := http.NewServeMux()
 
-    // Handle API endpoints
+   
     mux.HandleFunc("/api/shorten", shortenURLHandler)
     
-    // Handle redirect for shortened URLs
+   
     mux.HandleFunc("/", redirectHandler)
     
-    // Default handler for other routes
+   
     mux.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintf(w, "Welcome to URL Shortener API")
     })
@@ -61,7 +61,7 @@ func shortenURLHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
-    shortURL := r.URL.Path[1:] // Extract the short URL from the request path
+    shortURL := r.URL.Path[1:] 
     log.Println("Received short URL:", shortURL)
 
     originalURL, err := db.GetOriginalURL(shortURL)
@@ -71,7 +71,7 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    // Redirect to the original URL
+    
     http.Redirect(w, r, originalURL, http.StatusFound)
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CopyButton from './copybutton.js'; // Import the CopyButton component
-import SlidingPanel from './slidingpanel.js'; // Import the SlidingPanel component
+import CopyButton from './copybutton.js';
+import SlidingPanel from './slidingpanel.js';
 
 const URLShortener = () => {
   const [originalUrl, setOriginalUrl] = useState('');

@@ -4,18 +4,16 @@ import (
     "database/sql"
     "log"
 
-    _ "github.com/mattn/go-sqlite3" // SQLite driver
+    _ "github.com/mattn/go-sqlite3" 
 )
 
-var db *sql.DB // Global variable to hold the database connection
+var db *sql.DB 
 
-// URL struct for encoding and decoding JSON
 type URL struct {
     Original  string `json:"originalUrl"`
     Shortened string `json:"shortenedUrl"`
 }
 
-// InitDB initializes the database connection and creates the table if not exists
 func InitDB() {
     var err error
     db, err = sql.Open("sqlite3", "./urls.db")
@@ -23,7 +21,7 @@ func InitDB() {
         log.Fatal(err)
     }
 
-    // Ensure the database connection is available
+   
     err = db.Ping()
     if err != nil {
         log.Fatal(err)
@@ -31,14 +29,12 @@ func InitDB() {
 
     log.Println("Connected to SQLite database")
 
-    // Create the table if it does not exist
     err = createURLsTable()
     if err != nil {
         log.Fatal(err)
     }
 }
 
-// createURLsTable creates the URLs table if it doesn't exist
 func createURLsTable() error {
     createTableSQL := `
         CREATE TABLE IF NOT EXISTS urls (
@@ -57,7 +53,7 @@ func createURLsTable() error {
     return nil
 }
 
-// InsertURL inserts a new URL pair into the database
+
 func InsertURL(shortURL, originalURL string) error {
     _, err := db.Exec("INSERT INTO urls (shortURL, originalURL) VALUES (?, ?)", shortURL, originalURL)
     if err != nil {
@@ -66,7 +62,7 @@ func InsertURL(shortURL, originalURL string) error {
     return nil
 }
 
-// GetOriginalURL retrieves the original URL from the database based on the short URL
+
 func GetOriginalURL(shortURL string) (string, error) {
     var originalURL string
     err := db.QueryRow("SELECT originalURL FROM urls WHERE shortURL = ?", shortURL).Scan(&originalURL)
@@ -76,7 +72,6 @@ func GetOriginalURL(shortURL string) (string, error) {
     return originalURL, nil
 }
 
-// GetAllURLs retrieves all short and original URLs from the database
 func GetAllURLs() ([]URL, error) {
     rows, err := db.Query("SELECT shortURL, originalURL FROM urls")
     if err != nil {
@@ -97,7 +92,7 @@ func GetAllURLs() ([]URL, error) {
     return urls, nil
 }
 
-// CloseDB closes the database connection
+
 func CloseDB() {
     err := db.Close()
     if err != nil {
