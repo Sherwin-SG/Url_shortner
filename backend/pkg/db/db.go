@@ -4,10 +4,10 @@ import (
     "database/sql"
     "log"
 
-    _ "github.com/mattn/go-sqlite3" 
+    _ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
 )
 
-var db *sql.DB 
+var db *sql.DB // Global variable to hold the database connection
 
 type URL struct {
     Original  string `json:"originalUrl"`
@@ -21,7 +21,6 @@ func InitDB() {
         log.Fatal(err)
     }
 
-   
     err = db.Ping()
     if err != nil {
         log.Fatal(err)
@@ -43,7 +42,6 @@ func createURLsTable() error {
             originalURL TEXT NOT NULL
         );
     `
-
     _, err := db.Exec(createTableSQL)
     if err != nil {
         return err
@@ -53,7 +51,6 @@ func createURLsTable() error {
     return nil
 }
 
-
 func InsertURL(shortURL, originalURL string) error {
     _, err := db.Exec("INSERT INTO urls (shortURL, originalURL) VALUES (?, ?)", shortURL, originalURL)
     if err != nil {
@@ -61,7 +58,6 @@ func InsertURL(shortURL, originalURL string) error {
     }
     return nil
 }
-
 
 func GetOriginalURL(shortURL string) (string, error) {
     var originalURL string
@@ -92,6 +88,13 @@ func GetAllURLs() ([]URL, error) {
     return urls, nil
 }
 
+func DeleteURL(shortURL string) error {
+    _, err := db.Exec("DELETE FROM urls WHERE shortURL = ?", shortURL)
+    if err != nil {
+        return err
+    }
+    return nil
+}
 
 func CloseDB() {
     err := db.Close()

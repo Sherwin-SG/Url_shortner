@@ -17,18 +17,13 @@ func main() {
 
     mux := http.NewServeMux()
 
-   
     mux.HandleFunc("/api/shorten", shortenURLHandler)
-    
-   
     mux.HandleFunc("/", redirectHandler)
-    
-   
     mux.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
         fmt.Fprintf(w, "Welcome to URL Shortener API")
     })
-
     mux.HandleFunc("/api/urls", getAllURLsHandler)
+    mux.HandleFunc("/api/delete/", deleteURLHandler)
 
     handler := cors.Default().Handler(mux)
 
@@ -61,7 +56,7 @@ func shortenURLHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
-    shortURL := r.URL.Path[1:] 
+    shortURL := r.URL.Path[1:]
     log.Println("Received short URL:", shortURL)
 
     originalURL, err := db.GetOriginalURL(shortURL)
@@ -71,7 +66,6 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    
     http.Redirect(w, r, originalURL, http.StatusFound)
 }
 
@@ -85,6 +79,19 @@ func getAllURLsHandler(w http.ResponseWriter, r *http.Request) {
 
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(urls)
+}
+
+func deleteURLHandler(w http.ResponseWriter, r *http.Request) {
+    shortURL := r.URL.Path[len("/api/delete/"):]
+    err := db.DeleteURL(shortURL)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        log.Printf("Error deleting URL from database: %v\n", err)
+        return
+    }
+
+    w.WriteHeader(http.StatusOK)
+    fmt.Fprintf(w, "URL deleted successfully")
 }
 
 func generateShortURL() string {
