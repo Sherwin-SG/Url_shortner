@@ -8,7 +8,7 @@ A simple URL shortener application built with Go and React.
 1. [Introduction](#introduction)
 2. [Installation Instructions](#installation-instructions)
 3. [Usage Instructions](#usage-instructions)
-5. [Database Schema](#Database-Schema)
+5. [Database Schema](##Database-Schema)
 6. [Code Documentation](#Code-Documentation)
 7. [Citing Sources](#citing-sources)
 
