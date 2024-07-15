@@ -16,7 +16,7 @@ A simple URL shortener application built with Go and React.
 ## Introduction
 The URL Shortener Project is a web application that allows users to shorten long URLs for easier sharing and management. This project demonstrates the use of Go for the backend and React for the frontend.
 
-### Features
+## Features
 - Shorten long URLs
 - Redirect to original URLs using the shortened version
 - View all shortened URLs
@@ -30,7 +30,7 @@ The URL Shortener Project is a web application that allows users to shorten long
 
 ## Installation Instructions
 
-### Prerequisites
+## Prerequisites
 - Go (version 1.16 or later)
 - Node.js (version 14 or later)
 - npm (version 6 or later)
@@ -40,7 +40,7 @@ The URL Shortener Project is a web application that allows users to shorten long
 ```markdown
 ## Database Schema
 
-### URLs Table
+## URLs Table
 - **id:** INTEGER PRIMARY KEY AUTOINCREMENT
 - **shortURL:** TEXT UNIQUE NOT NULL
 - **originalURL:** TEXT NOT NULL
@@ -48,35 +48,35 @@ The URL Shortener Project is a web application that allows users to shorten long
 
 ## Code Documentation
 
-### Backend
+## Backend
 
-#### main.go
+## main.go
 The main entry point for the backend server.
 
-#### db/db.go
+## db/db.go
 Handles database connections and operations.
 
-#### Handlers
+## Handlers
 - **shortenURLHandler:** Handles URL shortening requests.
 - **redirectHandler:** Handles redirection to the original URL.
 - **getAllURLsHandler:** Retrieves all shortened URLs.
 - **deleteURLHandler:** Deletes a shortened URL.
 
-### Frontend
+## Frontend
 
-#### urlshortener.js
+## urlshortener.js
 Main component for the URL shortener interface.
 
-#### slidingpanel.js
+## slidingpanel.js
 Component for displaying and managing all shortened URLs.
 
-#### copybutton.js
+## copybutton.js
 Component for copying the shortened URL to the clipboard.
 
 
 ## Citing Sources
 
-### Libraries and Tools
+## Libraries and Tools
 - **Go:** https://golang.org/
 - **React:** https://reactjs.org/
 - **SQLite:** https://www.sqlite.org/
